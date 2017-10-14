@@ -3,8 +3,8 @@ import Common._
 
 lazy val commonSettings = Seq(
     version in ThisBuild := "1.5.2",
-    organization in ThisBuild := "org.scalaxb",
-    homepage in ThisBuild := Some(url("http://scalaxb.org")),
+    organization in ThisBuild := "io.github.bbarker",
+    homepage in ThisBuild := Some(url("https://github.com/bbarker/scalaxb")),
     licenses in ThisBuild := Seq("MIT License" -> url("https://github.com/eed3si9n/scalaxb/blob/master/LICENSE")),
     description in ThisBuild := """scalaxb is an XML data-binding tool for Scala that supports W3C XML Schema (xsd) and wsdl.""",
     scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-language:implicitConversions", "-language:postfixOps"),
