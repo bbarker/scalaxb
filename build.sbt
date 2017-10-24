@@ -14,7 +14,7 @@ lazy val commonSettings = Seq(
 
 lazy val root = (project in file(".")).
   enablePlugins(NoPublish).
-  aggregate(app, integration, scalaxbPlugin).
+  aggregate(app, integration /*, scalaxbPlugin */).
   settings(
     scalaVersion := scala211
   )
@@ -24,16 +24,13 @@ lazy val app = (project in file("cli")).
   settings(codegenSettings: _*).
   settings(
     name := "scalaxb",
-    crossScalaVersions := Seq(scala212, scala211, scala210),
+    crossScalaVersions := Seq(scala212, scala211),
     scalaVersion := scala211,
     resolvers += sbtResolver.value,
     libraryDependencies ++= appDependencies(scalaVersion.value),
     scalacOptions := {
       val prev = scalacOptions.value
-      if (scalaVersion.value != scala210) {
-        prev :+ "-Xfatal-warnings"
-      }
-      else prev
+      prev :+ "-Xfatal-warnings"
     },
 
     mainClass          in assembly := Some("scalaxb.compiler.Main")
@@ -55,17 +52,21 @@ lazy val integration = (project in file("integration")).
   ).
   dependsOn(app)
 
-lazy val scalaxbPlugin = (project in file("sbt-scalaxb")).
-  settings(commonSettings: _*).
-  settings(
-    sbtPlugin := true,
-    name := "sbt-scalaxb",
-    description := """sbt plugin to run scalaxb""",
-    ScriptedPlugin.scriptedSettings,
-    scriptedLaunchOpts := { scriptedLaunchOpts.value ++
-      Seq("-Xmx1024M", "-XX:MaxPermSize=256M", "-Dplugin.version=" + version.value)
-    },
-    scriptedBufferLog := false,
-    scripted := scripted.dependsOn(publishLocal in app).evaluated
-  ).
-  dependsOn(app)
+// lazy val scalaxbPlugin = (project in file("sbt-scalaxb")).
+//   settings(commonSettings: _*).
+//   settings(
+//     sbtPlugin := true,
+//     name := "sbt-scalaxb",
+//     description := """sbt plugin to run scalaxb""",
+//     ScriptedPlugin.scriptedSettings,
+//     scriptedLaunchOpts := { scriptedLaunchOpts.value ++
+//       Seq("-Xmx1024M", "-XX:MaxPermSize=256M", "-Dplugin.version=" + version.value)
+//     },
+//     scriptedBufferLog := false,
+//     scripted := scripted.dependsOn(publishLocal in app).evaluated
+//   ).
+//   dependsOn(app)
+
+
+
+

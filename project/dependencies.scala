@@ -3,7 +3,6 @@ import sbt._
 object Dependencies {
   val scala212 = "2.12.2"
   val scala211 = "2.11.11"
-  val scala210 = "2.10.6"
 
   val scopt = "com.github.scopt" %% "scopt" % "3.5.0"
   val log4j = "log4j" % "log4j" % "1.2.17"
@@ -37,7 +36,6 @@ object Dependencies {
     scopt,
     log4j
   ) ++ (sv match {
-    case x if sv startsWith "2.10." => Nil
     case _ => Seq(scalaXml, scalaParser)
   })
   def integrationDependencies(sv: String) = Seq(
