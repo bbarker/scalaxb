@@ -8,9 +8,10 @@
     <version>7</version>
   </parent>
 
-  <groupId>org.scalaxb</groupId>
+  <groupId>io.github.bbarker</groupId>
+  <!-- <groupId>org.scalaxb</groupId> -->
   <artifactId>scalaxb-maven-plugin</artifactId>
-  <version>1.5.0</version>
+  <version>1.5.3-bb-pre-1</version>
   <packaging>maven-plugin</packaging>
 
   <name>scalaxb Maven Plugin</name>
@@ -65,7 +66,8 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.scalaxb</groupId>
+      <groupId>io.github.bbarker</groupId>
+      <!-- <groupId>org.scalaxb</groupId> -->
       <artifactId>scalaxb_${binary.version}</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -140,6 +142,38 @@
   <build>
 
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+        <executions>
+            <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                    <goal>jar</goal>
+                </goals>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <reportPlugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <configuration>
+                <additionalparam>-Xdoclint:none</additionalparam>
+              </configuration>
+            </plugin>
+          </reportPlugins>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>

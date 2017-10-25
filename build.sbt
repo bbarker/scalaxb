@@ -7,6 +7,7 @@ lazy val commonSettings = Seq(
     homepage in ThisBuild := Some(url("https://github.com/bbarker/scalaxb")),
     licenses in ThisBuild := Seq("MIT License" -> url("https://github.com/eed3si9n/scalaxb/blob/master/LICENSE")),
     description in ThisBuild := """scalaxb is an XML data-binding tool for Scala that supports W3C XML Schema (xsd) and wsdl.""",
+    // pgpReadOnly := false,
     scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-language:implicitConversions", "-language:postfixOps"),
     parallelExecution in Test := false,
     resolvers += Resolver.typesafeIvyRepo("releases")
@@ -19,7 +20,7 @@ lazy val root = (project in file(".")).
   aggregate(app, integration /*, scalaxbPlugin */).
   settings(
     scalaVersion := scala211
-  )
+   )
 
 lazy val app = (project in file("cli")).
   settings(commonSettings: _*).
