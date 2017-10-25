@@ -2,7 +2,7 @@ import Dependencies._
 import Common._
 
 lazy val commonSettings = Seq(
-    version in ThisBuild := "1.5.2",
+    version in ThisBuild := "1.5.3-bb-pre-1",
     organization in ThisBuild := "io.github.bbarker",
     homepage in ThisBuild := Some(url("https://github.com/bbarker/scalaxb")),
     licenses in ThisBuild := Seq("MIT License" -> url("https://github.com/eed3si9n/scalaxb/blob/master/LICENSE")),
@@ -12,6 +12,8 @@ lazy val commonSettings = Seq(
     resolvers += Resolver.typesafeIvyRepo("releases")
   ) ++ sonatypeSettings
 
+// Disably scalaxb plugin for now as sbt 0.13 plugins depend on Scala 2.10:
+// https://github.com/eed3si9n/scalaxb/issues/447
 lazy val root = (project in file(".")).
   enablePlugins(NoPublish).
   aggregate(app, integration /*, scalaxbPlugin */).
@@ -52,20 +54,20 @@ lazy val integration = (project in file("integration")).
   ).
   dependsOn(app)
 
-// lazy val scalaxbPlugin = (project in file("sbt-scalaxb")).
-//   settings(commonSettings: _*).
-//   settings(
-//     sbtPlugin := true,
-//     name := "sbt-scalaxb",
-//     description := """sbt plugin to run scalaxb""",
-//     ScriptedPlugin.scriptedSettings,
-//     scriptedLaunchOpts := { scriptedLaunchOpts.value ++
-//       Seq("-Xmx1024M", "-XX:MaxPermSize=256M", "-Dplugin.version=" + version.value)
-//     },
-//     scriptedBufferLog := false,
-//     scripted := scripted.dependsOn(publishLocal in app).evaluated
-//   ).
-//   dependsOn(app)
+lazy val scalaxbPlugin = (project in file("sbt-scalaxb")).
+  settings(commonSettings: _*).
+  settings(
+    sbtPlugin := true,
+    name := "sbt-scalaxb",
+    description := """sbt plugin to run scalaxb""",
+    ScriptedPlugin.scriptedSettings,
+    scriptedLaunchOpts := { scriptedLaunchOpts.value ++
+      Seq("-Xmx1024M", "-XX:MaxPermSize=256M", "-Dplugin.version=" + version.value)
+    },
+    scriptedBufferLog := false,
+    scripted := scripted.dependsOn(publishLocal in app).evaluated
+  ).
+  dependsOn(app)
 
 
 
